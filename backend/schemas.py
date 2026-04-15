@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 from datetime import date
 from typing import Optional, List
 
@@ -8,28 +8,10 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-    
-    @field_validator('password')
-    @classmethod
-    def validate_password(cls, v):
-        if len(v) > 72:
-            raise ValueError('Password must be 72 characters or less')
-        if len(v) < 6:
-            raise ValueError('Password must be at least 6 characters')
-        return v
 
 class PasswordReset(BaseModel):
     email: str
     new_password: str
-    
-    @field_validator('new_password')
-    @classmethod
-    def validate_password(cls, v):
-        if len(v) > 72:
-            raise ValueError('Password must be 72 characters or less')
-        if len(v) < 6:
-            raise ValueError('Password must be at least 6 characters')
-        return v
 
 class UserProfile(BaseModel):
     id: int

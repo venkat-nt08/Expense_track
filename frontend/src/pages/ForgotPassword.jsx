@@ -75,9 +75,6 @@ const ForgotPassword = () => {
                             required
                             style={{ width: '100%' }}
                         />
-                        <small style={{ color: newPassword.length > 72 ? 'var(--danger)' : 'var(--text-secondary)', marginTop: '0.25rem', display: 'block' }}>
-                            {newPassword.length}/72 characters
-                        </small>
                     </div>
                     <div style={{ marginBottom: '2rem' }}>
                         <label style={{ display: 'block', marginBottom: '0.5rem' }}>Confirm Password</label>

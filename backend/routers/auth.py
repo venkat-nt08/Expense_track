@@ -10,6 +10,11 @@ router = APIRouter(
 
 @router.post("/signup", response_model=schemas.Token)
 def signup(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
+    if len(user.password) > 72:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be 72 characters or less")
+    if len(user.password) < 6:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be at least 6 characters")
+    
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -38,6 +43,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @router.post("/forgot-password")
 def forgot_password(reset: schemas.PasswordReset, db: Session = Depends(database.get_db)):
+    if len(reset.new_password) > 72:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be 72 characters or less")
+    if len(reset.new_password) < 6:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be at least 6 characters")
+    
     user = db.query(models.User).filter(models.User.email == reset.email).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")

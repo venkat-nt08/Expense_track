@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import api from '../services/api';
 
 const AuthContext = createContext();
 
@@ -33,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         formData.append('username', email);
         formData.append('password', password);
 
-        const response = await axios.post('http://127.0.0.1:8000/token', formData);
+        const response = await api.post('/token', formData);
         const { access_token } = response.data;
 
         localStorage.setItem('token', access_token);
@@ -43,7 +44,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     const signup = async (email, password) => {
-        await axios.post('http://127.0.0.1:8000/signup', { email, password });
+        await api.post('/signup', { email, password });
+        return true;
+    };
+
+    const forgotPassword = async (email, newPassword) => {
+        await api.post('/forgot-password', { email, new_password: newPassword });
         return true;
     };
 
@@ -53,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, signup, forgotPassword, logout, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

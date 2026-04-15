@@ -35,3 +35,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     
     access_token = auth.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/forgot-password")
+def forgot_password(reset: schemas.PasswordReset, db: Session = Depends(database.get_db)):
+    user = db.query(models.User).filter(models.User.email == reset.email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    user.hashed_password = auth.get_password_hash(reset.new_password)
+    db.commit()
+    return {"message": "Password updated successfully"}

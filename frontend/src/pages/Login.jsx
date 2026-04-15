@@ -56,7 +56,10 @@ const Login = () => {
                     </div>
                     <button type="submit" className="btn-primary" style={{ width: '100%', padding: '1rem' }}>Login</button>
                 </form>
-                <div style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                <div style={{ marginTop: '1rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                    <Link to="/forgot-password" style={{ color: 'var(--primary)' }}>Forgot password?</Link>
+                </div>
+                <div style={{ marginTop: '1rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
                     Don't have an account? <Link to="/signup" style={{ color: 'var(--primary)' }}>Sign up</Link>
                 </div>
             </motion.div>

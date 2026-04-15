@@ -9,6 +9,10 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+class PasswordReset(BaseModel):
+    email: str
+    new_password: str
+
 class UserProfile(BaseModel):
     id: int
     email: str

@@ -13,6 +13,15 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!email) {
+            return setError('Email is required');
+        }
+        if (password.length < 6) {
+            return setError('Password must be at least 6 characters');
+        }
+        if (password.length > 72) {
+            return setError('Password must be 72 characters or less');
+        }
         if (password !== confirmPassword) {
             return setError('Passwords do not match');
         }
@@ -58,6 +67,9 @@ const Signup = () => {
                             required
                             style={{ width: '100%' }}
                         />
+                        <small style={{ color: password.length > 72 ? 'var(--danger)' : 'var(--text-secondary)', marginTop: '0.25rem', display: 'block' }}>
+                            {password.length}/72 characters
+                        </small>
                     </div>
                     <div style={{ marginBottom: '2rem' }}>
                         <label style={{ display: 'block', marginBottom: '0.5rem' }}>Confirm Password</label>

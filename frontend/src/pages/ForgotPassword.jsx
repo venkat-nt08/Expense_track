@@ -14,6 +14,15 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!email) {
+            return setError('Email is required');
+        }
+        if (newPassword.length < 6) {
+            return setError('Password must be at least 6 characters');
+        }
+        if (newPassword.length > 72) {
+            return setError('Password must be 72 characters or less');
+        }
         if (newPassword !== confirmPassword) {
             return setError('Passwords do not match');
         }
@@ -66,6 +75,9 @@ const ForgotPassword = () => {
                             required
                             style={{ width: '100%' }}
                         />
+                        <small style={{ color: newPassword.length > 72 ? 'var(--danger)' : 'var(--text-secondary)', marginTop: '0.25rem', display: 'block' }}>
+                            {newPassword.length}/72 characters
+                        </small>
                     </div>
                     <div style={{ marginBottom: '2rem' }}>
                         <label style={{ display: 'block', marginBottom: '0.5rem' }}>Confirm Password</label>
